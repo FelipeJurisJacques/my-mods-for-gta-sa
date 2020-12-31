@@ -1,0 +1,4 @@
+androm, 1,1
+intruder, 0,36
+willard, 0,0
+sunrise, 0,36

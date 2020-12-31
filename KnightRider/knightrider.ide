@@ -1,0 +1,70 @@
+objs
+19013, ssc_tunel, ssc, 200, 0
+19014, ssc_tunel_anim, ssc, 100, 0
+19015, ssc_tunel2, ssc, 200, 0
+19016, ssc_interior, ssc_in, 200, 0
+19017, ssc_interior2, ssc_in, 200, 0
+19018, ssc_interior3, ssc_in, 50, 0
+19019, ssc_interior4, ssc_in, 50, 0
+19020, ssc_door_a1, ssc, 200, 0
+19021, ssc_door_a2, ssc, 200, 0
+19022, ssc_door_b1, ssc, 200, 0
+19023, ssc_door_b2, ssc, 200, 0
+19024, ssc_retentor_a1, ssc_in, 50, 0
+19025, ssc_retentor_a2, ssc_in, 50, 0
+19026, ssc_retentor_a3, ssc_in, 50, 0
+19027, ssc_retentor_a4, ssc_in, 50, 0
+19028, ssc_retentor_b1, ssc, 50, 0
+19029, ssc_retentor_b2, ssc, 50, 0
+19030, ssc_retentor_b3, ssc, 50, 0
+19031, ssc_retentor_b4, ssc, 50, 0
+19032, ssc_exterior, ssc, 200, 0
+19033, ssc_exterior_LOD, ssc, 2000, 0
+
+19034, scanner, scanner, 100, 2097152
+19035, scanner_attack, scanner, 100, 2097152
+19036, tr_bonnet, transformation, 100, 2097152
+19037, tr_center, transformation, 100, 2097152
+19038, tr_front, transformation, 100, 2097152
+19039, tr_bump_rear, transformation, 100, 2097152
+19040, tr_turbo_b, transformation, 100, 2097152
+19041, tr_rear, transformation, 100, 2097152
+19042, tr_submarine, transformation, 100, 2097152
+19043, kitt_parachute, transformation, 100, 2097152
+19044, gatlinggun, gatlinggun, 100, 2097152
+19045, gatlinggun1, gatlinggun, 100, 2097152
+19046, gatlinggun2, gatlinggun, 100, 2097152
+19047, gatlinggun3, gatlinggun, 100, 2097152
+19048, gatlinggun4, gatlinggun, 100, 2097152
+19049, missile_launcher, missile_launcher, 100, 2097152
+19050, plasma_pulse, transformation, 100, 2097152
+19051, plasma_pulse01, transformation, 100, 2097152
+19052, plasma_pulse02, transformation, 100, 2097152
+19053, plasma_pulse03, transformation, 100, 2097152
+19054, plasma_pulse04, transformation, 100, 2097152
+19055, shot, transformation, 100, 2097152
+19056, shot01, transformation, 100, 2097152
+19057, shot02, transformation, 100, 2097152
+19058, shot03, transformation, 100, 2097152
+19059, shot04, transformation, 100, 2097152
+19060, shot05, transformation, 100, 2097152
+19061, shot06, transformation, 100, 2097152
+19062, shot07, transformation, 100, 2097152
+19063, shot08, transformation, 100, 2097152
+19064, shot09, transformation, 100, 2097152
+19065, shot10, transformation, 100, 2097152
+19066, signaliting, transformation, 100, 2097152
+
+19077, ssc_object, ssc_in, 50, 0
+19078, ssc_object2, ssc_in, 50, 0
+19079, ssc_object3, ssc_in, 50, 0
+19080, ssc_object4, ssc_in, 50, 0
+19081, ssc_object5, ssc_in, 50, 0
+
+19082, escanner_karr, escanner_karr, 100, 2097152
+19083, scanning, scanner, 100, 2097152
+end
+tobj
+end
+2dfx
+end

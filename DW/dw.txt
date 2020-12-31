@@ -1,0 +1,6 @@
+IDE MODLOADER\FELIPEJJ\DW\DW.IDE
+IPL MODLOADER\FELIPEJJ\DW\DW.IPL
+COLFILE 0 DW\tardis\tardis.col
+COLFILE 0 DW\screwdriver\screwdriver.col
+
+

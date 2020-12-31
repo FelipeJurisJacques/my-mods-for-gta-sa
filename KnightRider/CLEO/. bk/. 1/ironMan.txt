@@ -1,0 +1,453 @@
+// This file was decompiled using SASCM.ini published by GTAG (http://gtag.gtagaming.com/opcode-database) on 14.6.2013
+{$CLEO .cs}
+
+//-------------MAIN---------------
+thread 'IRONMAN' 
+
+:IRONMAN_11
+wait 100 
+if 
+   Player.Defined($PLAYER_CHAR)
+else_jump @IRONMAN_11 
+if 
+   Player.Controllable($PLAYER_CHAR)
+else_jump @IRONMAN_11 
+if 
+044B:   actor $PLAYER_ACTOR on_foot 
+else_jump @IRONMAN_11 
+if 
+0AB0:   key_pressed 9 
+else_jump @IRONMAN_11 
+jump @IRONMAN_143 
+
+:IRONMAN_85
+wait 10 
+/*04EF: release_animation "IRONMAN" 
+04EF: release_animation "IRON_FLING" 
+04EF: release_animation "IRON_LASER" */
+0296: unload_special_actor 9 
+wait 10 
+jump @IRONMAN_143 
+
+:IRONMAN_143
+wait 10 
+023C: load_special_actor 'Mark42' as 6 // models 290-299 
+038B: load_requested_models 
+/*04ED: load_animation "IRONMAN" 
+04ED: load_animation "IRON_FLING" 
+04ED: load_animation "IRON_LASER"     */
+wait 10 
+if //and
+023D:   special_actor 6 loaded 
+/*04EE:   animation "IRONMAN" loaded 
+04EE:   animation "IRON_FLING" loaded 
+04EE:   animation "IRON_LASER" loaded  */
+else_jump @IRONMAN_85 
+wait 10 
+Actor.StorePos($PLAYER_ACTOR, 1@, 2@, 3@)
+2@ += 5.0
+$PLAYER2 = Actor.Create(Gang2, #SPECIAL06, 1@, 2@, 3@)
+wait 100
+0296: unload_special_actor 6 
+0665: get_actor $PLAYER2 model_to $PLAYER2_MODEL
+Actor.SetImmunities($PLAYER_ACTOR, 1, 1, 1, 1, 1)
+0992: set_player $PLAYER_CHAR weapons_scrollable 0 
+01B9: set_actor $PLAYER_ACTOR armed_weapon_to 0 
+wait 800 
+05B9: AS_actor $PLAYER_ACTOR stay_idle 1 ms 
+wait 10 
+0687: clear_actor $PLAYER_ACTOR task 
+0793: save_player_clothes 
+wait 10 
+09C7: change_player $PLAYER_CHAR model_to $PLAYER2_MODEL 
+Player.Build($PLAYER_CHAR)
+//0812: AS_actor $PLAYER_ACTOR perform_animation "PARADA" IFP "IRONMAN" framedelta 4.0 loopA 1 lockX 0 lockY 0 lockF 0 time 750 // versionB 
+10@ = 0.0 
+11@ = 1.1 
+wait 800 
+jump @IRONMAN_402 
+
+:IRONMAN_402
+wait 10 
+if 
+   Player.Defined($PLAYER_CHAR)
+else_jump @IRONMAN_402 
+if 
+044B:   actor $PLAYER_ACTOR on_foot 
+else_jump @IRONMAN_402 
+if 
+0AB0:   key_pressed 9 
+else_jump @IRONMAN_588 
+wait 10 
+05B9: AS_actor $PLAYER_ACTOR stay_idle 1 ms 
+wait 10 
+0687: clear_actor $PLAYER_ACTOR task 
+wait 10 
+09C7: change_player $PLAYER_CHAR model_to #NULL 
+Player.Build($PLAYER_CHAR)
+wait 500 
+0794: restore_player_clothes 
+wait 50 
+Player.Build($PLAYER_CHAR)
+Actor.SetImmunities($PLAYER_ACTOR, 0, 0, 0, 0, 0)
+0992: set_player $PLAYER_CHAR weapons_scrollable 1 
+01B9: set_actor $PLAYER_ACTOR armed_weapon_to 0 
+/*04EF: release_animation "IRONMAN" 
+04EF: release_animation "IRON_FLING" 
+04EF: release_animation "IRON_LASER"    */
+0296: unload_special_actor 9 
+wait 100 
+jump @IRONMAN_11 
+
+:IRONMAN_588
+0819: 1@ = actor $PLAYER_ACTOR distance_from_ground 
+if 
+  1@ > 3.0 
+else_jump @IRONMAN_1598 
+if 
+   not 20@ == -1 
+else_jump @IRONMAN_679 
+0976: destroy_particle 20@ 
+0976: destroy_particle 21@ 
+0976: destroy_particle 22@ 
+0976: destroy_particle 23@ 
+0976: destroy_particle 24@ 
+0976: destroy_particle 25@ 
+20@ = -1 
+jump @IRONMAN_679 
+
+:IRONMAN_679
+083D: get_actor $PLAYER_ACTOR velocity_in_direction_XYZ 1@ 2@ 3@ 
+if or
+  1@ > 10.0 
+  2@ > 10.0 
+   not 1@ >= -10.0 
+   not 2@ >= -10.0 
+else_jump @IRONMAN_1200 
+066A: 20@ = attach_particle "FLAME" to_actor $PLAYER_ACTOR with_offset 0.1 -1.2 0.1 rotation 0.0 0.0 180.0 type 15 
+064C: make_particle 20@ visible 
+066A: 21@ = attach_particle "FLAME" to_actor $PLAYER_ACTOR with_offset -0.1 -1.2 0.1 rotation 0.0 0.0 180.0 type 15 
+064C: make_particle 21@ visible 
+066A: 22@ = attach_particle "FLAME" to_actor $PLAYER_ACTOR with_offset 0.45 -0.2 0.05 rotation 0.0 0.0 180.0 type 15 
+064C: make_particle 22@ visible 
+066A: 23@ = attach_particle "FLAME" to_actor $PLAYER_ACTOR with_offset -0.45 -0.2 0.05 rotation 0.0 0.0 180.0 type 15 
+064C: make_particle 23@ visible 
+1@ = Actor.Angle($PLAYER_ACTOR)
+1@ += 90.0 
+02F7: 2@ = cosine 1@ // (float) 
+02F6: 3@ = sine 1@ // (float) 
+006B: 2@ *= 10@ // (float) 
+006B: 3@ *= 10@ // (float) 
+0AB4: 1@ = var 91 
+1@ /= 90.0 
+0087: 4@ = 1@ // (float) 
+006B: 1@ *= 10@ // (float) 
+if 
+   not 4@ >= 0.0 
+else_jump @IRONMAN_1073 
+4@ *= -1.0 
+jump @IRONMAN_1073 
+
+:IRONMAN_1073
+5@ = 1.0 
+0063: 5@ -= 4@ // (float) 
+006B: 2@ *= 5@ // (float) 
+006B: 3@ *= 5@ // (float) 
+083C: set_actor $PLAYER_ACTOR velocity_in_direction_XYZ 2@ 3@ 1@ 
+0AB4: 1@ = var 91 
+if 
+   not Actor.Animation($PLAYER_ACTOR) == "MOVE"
+else_jump @IRONMAN_1554 
+0687: clear_actor $PLAYER_ACTOR task 
+0812: AS_actor $PLAYER_ACTOR perform_animation "MOVE" IFP "IRON_FLING" framedelta 99.0 loopA 1 lockX 0 lockY 0 lockF 0 time -1 // versionB 
+jump @IRONMAN_1554 
+
+:IRONMAN_1200
+066A: 20@ = attach_particle "FLAME" to_actor $PLAYER_ACTOR with_offset 0.1 -1.1 0.1 rotation 0.0 0.0 180.0 type 15 
+064C: make_particle 20@ visible 
+066A: 21@ = attach_particle "FLAME" to_actor $PLAYER_ACTOR with_offset -0.1 -0.9 0.1 rotation 0.0 0.0 180.0 type 15 
+064C: make_particle 21@ visible 
+066A: 22@ = attach_particle "FLAME" to_actor $PLAYER_ACTOR with_offset 0.3 -0.1 0.05 rotation 0.0 0.0 180.0 type 15 
+064C: make_particle 22@ visible 
+066A: 23@ = attach_particle "FLAME" to_actor $PLAYER_ACTOR with_offset -0.3 -0.1 0.05 rotation 0.0 0.0 180.0 type 15 
+064C: make_particle 23@ visible 
+1@ = Actor.Angle($PLAYER_ACTOR)
+1@ -= 90.0 
+02F7: 2@ = cosine 1@ // (float) 
+02F6: 3@ = sine 1@ // (float) 
+006B: 2@ *= 10@ // (float) 
+006B: 3@ *= 10@ // (float) 
+083C: set_actor $PLAYER_ACTOR velocity_in_direction_XYZ 2@ 3@ 11@ 
+1@ = 90.0 
+if 
+   not Actor.Animation($PLAYER_ACTOR) == "STOP"
+else_jump @IRONMAN_1554 
+0687: clear_actor $PLAYER_ACTOR task 
+0812: AS_actor $PLAYER_ACTOR perform_animation "STOP" IFP "IRON_FLING" framedelta 99.0 loopA 1 lockX 0 lockY 0 lockF 0 time -1 // versionB 
+jump @IRONMAN_1554 
+
+:IRONMAN_1554
+wait 10 
+0AB4: 2@ = var 90 
+2@ *= -1.0 
+083E: set_actor $PLAYER_ACTOR rotation 1@ 0.0 2@ while_in_air 
+jump @IRONMAN_2266 
+
+:IRONMAN_1598
+if or
+   Actor.Animation($PLAYER_ACTOR) == "STOP"
+   Actor.Animation($PLAYER_ACTOR) == "MOVE"
+else_jump @IRONMAN_1948 
+0976: destroy_particle 20@ 
+0976: destroy_particle 21@ 
+0976: destroy_particle 22@ 
+0976: destroy_particle 23@ 
+20@ = -1 
+06AC: 1@ = actor $PLAYER_ACTOR movement_speed 
+if 
+   not 1@ >= 50.0 
+else_jump @IRONMAN_1825 
+wait 10 
+0687: clear_actor $PLAYER_ACTOR task 
+0812: AS_actor $PLAYER_ACTOR perform_animation "PARADA" IFP "IRONMAN" framedelta 4.0 loopA 1 lockX 0 lockY 0 lockF 0 time 750 // versionB 
+wait 10 
+1@ = Actor.Angle($PLAYER_ACTOR)
+if 
+   Actor.Animation($PLAYER_ACTOR) == "STOP"
+else_jump @IRONMAN_1785 
+1@ += 180.0 
+jump @IRONMAN_1785 
+
+:IRONMAN_1785
+Actor.Angle($PLAYER_ACTOR) = 1@
+10@ = 0.0 
+11@ = 1.1 
+wait 1000 
+jump @IRONMAN_402 
+
+:IRONMAN_1825
+wait 10 
+083D: get_actor $PLAYER_ACTOR velocity_in_direction_XYZ 5@ 6@ 7@ 
+0687: clear_actor $PLAYER_ACTOR task 
+4@ = Actor.Angle($PLAYER_ACTOR)
+Actor.StorePos($PLAYER_ACTOR, 1@, 2@, 3@)
+3@ += 2.0 
+Actor.PutAt($PLAYER_ACTOR, 1@, 2@, 3@)
+Actor.Angle($PLAYER_ACTOR) = 4@
+083C: set_actor $PLAYER_ACTOR velocity_in_direction_XYZ 5@ 6@ 7@ 
+10@ = 0.0 
+11@ = 1.1 
+wait 1000 
+jump @IRONMAN_402 
+
+:IRONMAN_1948
+if 
+00E1:   player 0 pressed_key 14 
+else_jump @IRONMAN_3495 
+wait 10 
+0687: clear_actor $PLAYER_ACTOR task 
+0812: AS_actor $PLAYER_ACTOR perform_animation "MOVE" IFP "IRONMAN" framedelta 99.0 loopA 1 lockX 0 lockY 0 lockF 0 time -1 // versionB 
+wait 200 
+066A: 20@ = attach_particle "VENTGLOW" to_actor $PLAYER_ACTOR with_offset 0.1 -1.8 0.1 rotation 0.0 0.0 180.0 type 15 
+064C: make_particle 20@ visible 
+066A: 21@ = attach_particle "VENTGLOW" to_actor $PLAYER_ACTOR with_offset -0.1 -1.8 0.1 rotation 0.0 0.0 180.0 type 15 
+064C: make_particle 21@ visible 
+066A: 22@ = attach_particle "VENTGLOW" to_actor $PLAYER_ACTOR with_offset 0.45 -0.8 0.0 rotation 0.0 0.0 180.0 type 15 
+064C: make_particle 22@ visible 
+066A: 23@ = attach_particle "VENTGLOW" to_actor $PLAYER_ACTOR with_offset -0.45 -0.8 0.0 rotation 0.0 0.0 180.0 type 15 
+064C: make_particle 23@ visible 
+083C: set_actor $PLAYER_ACTOR velocity_in_direction_XYZ 0.0 0.0 40.0 
+wait 500 
+jump @IRONMAN_402 
+
+:IRONMAN_2266
+if 
+00E1:   player 0 pressed_key 1 
+else_jump @IRONMAN_2542 
+0494: get_joystick 0 direction_offset_to 1@ 2@ 3@ 4@ 
+if 
+  2@ > 0.0 
+else_jump @IRONMAN_2444 
+if 
+   Actor.Animation($PLAYER_ACTOR) == "STOP"
+else_jump @IRONMAN_2384 
+if 
+  11@ > -10.0 
+else_jump @IRONMAN_402 
+11@ -= 5.0 
+wait 10 
+jump @IRONMAN_402 
+
+:IRONMAN_2384
+if 
+   Actor.Animation($PLAYER_ACTOR) == "MOVE"
+else_jump @IRONMAN_402 
+if 
+  10@ > 5.0 
+else_jump @IRONMAN_402 
+10@ -= 10.0 
+jump @IRONMAN_402 
+
+:IRONMAN_2444
+if or
+   Actor.Animation($PLAYER_ACTOR) == "MOVE"
+   Actor.Animation($PLAYER_ACTOR) == "STOP"
+else_jump @IRONMAN_402 
+if 
+   not 10@ >= 500.0 
+else_jump @IRONMAN_402 
+10@ += 10.0 
+if 
+00E1:   player 0 pressed_key 16 
+else_jump @IRONMAN_402 
+10@ += 10.0 
+jump @IRONMAN_402 
+
+:IRONMAN_2542
+if 
+00E1:   player 0 pressed_key 14 
+else_jump @IRONMAN_2908 
+if 
+   Actor.Animation($PLAYER_ACTOR) == "STOP"
+else_jump @IRONMAN_2623 
+if 
+   not 11@ >= 50.0 
+else_jump @IRONMAN_402 
+11@ += 5.0 
+wait 10 
+jump @IRONMAN_402 
+
+:IRONMAN_2623
+wait 10 
+0976: destroy_particle 20@ 
+0976: destroy_particle 21@ 
+0976: destroy_particle 22@ 
+0976: destroy_particle 23@ 
+0687: clear_actor $PLAYER_ACTOR task 
+0812: AS_actor $PLAYER_ACTOR perform_animation "FALL_SKYDIVE" IFP "PED" framedelta 99.0 loopA 1 lockX 0 lockY 0 lockF 0 time -1 // versionB 
+0AB4: 2@ = var 90 
+2@ *= -1.0 
+083E: set_actor $PLAYER_ACTOR rotation 90.0 0.0 2@ while_in_air 
+083D: get_actor $PLAYER_ACTOR velocity_in_direction_XYZ 1@ 2@ 3@ 
+1@ /= 2.0 
+2@ /= 2.0 
+3@ += 10.0 
+083C: set_actor $PLAYER_ACTOR velocity_in_direction_XYZ 1@ 2@ 3@ 
+wait 500 
+083D: get_actor $PLAYER_ACTOR velocity_in_direction_XYZ 1@ 2@ 3@ 
+1@ /= 2.0 
+2@ /= 2.0 
+3@ += 10.0 
+083C: set_actor $PLAYER_ACTOR velocity_in_direction_XYZ 1@ 2@ 3@ 
+wait 500 
+083C: set_actor $PLAYER_ACTOR velocity_in_direction_XYZ 0.0 0.0 10.0 
+0687: clear_actor $PLAYER_ACTOR task 
+10@ = 0.0 
+11@ = 1.1 
+wait 10 
+jump @IRONMAN_402 
+
+:IRONMAN_2908
+if 
+   Actor.Animation($PLAYER_ACTOR) == "STOP"
+else_jump @IRONMAN_402 
+if 
+00E1:   player 0 pressed_key 6 
+else_jump @IRONMAN_402 
+wait 10 
+0976: destroy_particle 20@ 
+0976: destroy_particle 21@ 
+0976: destroy_particle 22@ 
+0976: destroy_particle 23@ 
+0687: clear_actor $PLAYER_ACTOR task 
+0812: AS_actor $PLAYER_ACTOR perform_animation "IRONMAN_1" IFP "IRON_LASER" framedelta 99.0 loopA 1 lockX 0 lockY 0 lockF 0 time -1 // versionB 
+01B9: set_actor $PLAYER_ACTOR armed_weapon_to 0 
+10@ = 0.0 
+11@ = 1.1 
+wait 10 
+jump @IRONMAN_3057 
+
+:IRONMAN_3057
+wait 10 
+if 
+   Player.Defined($PLAYER_CHAR)
+else_jump @IRONMAN_402 
+if 
+044B:   actor $PLAYER_ACTOR on_foot 
+else_jump @IRONMAN_402 
+083C: set_actor $PLAYER_ACTOR velocity_in_direction_XYZ 0.0 0.0 1.15 
+0922: set_camera_zoom_from 30.0 to 70.0 timelimit 1000 smooth_transition 1 
+0AB4: 1@ = var 91 
+0AB4: 2@ = var 90 
+2@ *= -1.0 
+083E: set_actor $PLAYER_ACTOR rotation 1@ 0.0 2@ while_in_air 
+if 
+00E1:   player 0 pressed_key 6 
+else_jump @IRONMAN_4005 
+if 
+00E1:   player 0 pressed_key 17 
+else_jump @IRONMAN_3057 
+04C4: store_coords_to 4@ 5@ 6@ from_actor $PLAYER_ACTOR with_offset 3.25 100.0 3.55 
+04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.23 0.5 0.53 
+06BC: create_M4_shoot_from 1@ 2@ 3@ target 4@ 5@ 6@ energy 10 
+04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.21 0.5 0.51 
+06BC: create_M4_shoot_from 1@ 2@ 3@ target 4@ 5@ 6@ energy 10 
+04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.27 0.5 0.53 
+06BC: create_M4_shoot_from 1@ 2@ 3@ target 4@ 5@ 6@ energy 10 
+04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.29 0.5 0.51 
+06BC: create_M4_shoot_from 1@ 2@ 3@ target 4@ 5@ 6@ energy 10 
+04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.25 0.5 0.55 
+06BC: create_M4_shoot_from 1@ 2@ 3@ target 4@ 5@ 6@ energy 10 
+jump @IRONMAN_3057 
+
+:IRONMAN_3495
+if 
+00E1:   player 0 pressed_key 6 
+else_jump @IRONMAN_402 
+wait 10 
+0687: clear_actor $PLAYER_ACTOR task 
+0812: AS_actor $PLAYER_ACTOR perform_animation "IRONMAN_1" IFP "IRON_LASER" framedelta 99.0 loopA 1 lockX 0 lockY 0 lockF 0 time -1 // versionB 
+01B9: set_actor $PLAYER_ACTOR armed_weapon_to 0 
+10@ = 0.0 
+11@ = 1.1 
+wait 10 
+jump @IRONMAN_3602 
+
+:IRONMAN_3602
+wait 10 
+if 
+   Player.Defined($PLAYER_CHAR)
+else_jump @IRONMAN_402 
+if 
+044B:   actor $PLAYER_ACTOR on_foot 
+else_jump @IRONMAN_402 
+0922: set_camera_zoom_from 30.0 to 70.0 timelimit 1000 smooth_transition 1 
+0AB4: 2@ = var 90 
+2@ *= -1.0 
+Actor.Angle($PLAYER_ACTOR) = 2@
+if 
+00E1:   player 0 pressed_key 6 
+else_jump @IRONMAN_4005 
+if 
+00E1:   player 0 pressed_key 17 
+else_jump @IRONMAN_3602 
+04C4: store_coords_to 4@ 5@ 6@ from_actor $PLAYER_ACTOR with_offset 3.25 100.0 0.55 
+04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.23 0.5 0.53 
+06BC: create_M4_shoot_from 1@ 2@ 3@ target 4@ 5@ 6@ energy 10 
+04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.21 0.5 0.51 
+06BC: create_M4_shoot_from 1@ 2@ 3@ target 4@ 5@ 6@ energy 10 
+04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.27 0.5 0.53 
+06BC: create_M4_shoot_from 1@ 2@ 3@ target 4@ 5@ 6@ energy 10 
+04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.29 0.5 0.51 
+06BC: create_M4_shoot_from 1@ 2@ 3@ target 4@ 5@ 6@ energy 10 
+04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.25 0.5 0.55 
+06BC: create_M4_shoot_from 1@ 2@ 3@ target 4@ 5@ 6@ energy 10 
+jump @IRONMAN_3602 
+
+:IRONMAN_4005
+wait 10 
+05B9: AS_actor $PLAYER_ACTOR stay_idle 1 ms 
+wait 10 
+0687: clear_actor $PLAYER_ACTOR task 
+wait 10 
+jump @IRONMAN_402 

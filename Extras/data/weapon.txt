@@ -1,0 +1,16 @@
+# Gun Weapons
+#-------------------------------ranges------modelIds----slot-animgrp----ammo-dam----offset--------------skill---------------loop1--------loop2----break-flags-------old_shot_data-------
+#	A				B			C	 D		E	F		I	J			K	 L		M     N     O		P  Q	R	S	 	T  U  V  	 W  X  Y  Z		a			b    c    d      e
+################
+$ PISTOL			INSTANT_HIT	25.0 30.0	346	-1		2	colt45		17	 25		0.25  0.05  0.09    0  0	0.75 1.0 	 6 12  6     6 11  6  99	3033
+$ PISTOL			INSTANT_HIT	30.0 35.0	346	-1		2	colt45		17	 25		0.25  0.05  0.09	1  40	1.0  1.0 	 6 10  6     6 10  6  99	3033
+$ PISTOL			INSTANT_HIT	35.0 35.0	346	-1		2	colt45pro	34	 25		0.25  0.05  0.09	2  999	1.25 1.0 	 6 13  6     6 12  6  99	3833
+$ PISTOL			INSTANT_HIT	30.0 35.0	346	-1		2	colt_cop	17	 25		0.25  0.05  0.09	3  5000	1.0  1.0 	 6 15  6     6 15  6  99	7031
+
+$ PISTOL_SILENCED	INSTANT_HIT	25.0 30.0	347	-1		2	silenced	17	 40		0.40  0.05  0.15    0  0	1.0  1.0 	 6 20  6	 6 20  6  40	7001
+$ PISTOL_SILENCED	INSTANT_HIT	30.0 35.0	347	-1		2	silenced	17	 40		0.40  0.05  0.15	1  500	1.25 1.2 	 6 13  6	 6 13  6  40	7011
+$ PISTOL_SILENCED	INSTANT_HIT	35.0 35.0	347	-1		2	silenced	17	 40		0.40  0.05  0.15	2  999	1.5  1.5 	 6 12  6	 6 12  6  40	7031
+
+$ DESERT_EAGLE		INSTANT_HIT	25.0 30.0	348	-1		2	pythonbad	7	 70		0.41  0.03  0.12    0  0	0.75 1.0 	 7 20  8     6 17  7  40	7001
+$ DESERT_EAGLE		INSTANT_HIT	30.0 35.0	348	-1		2	python		7	 140	0.41  0.03  0.12    1  200	1.0	 1.2 	 6 17  7     6 15  7  40	7011
+$ DESERT_EAGLE		INSTANT_HIT	35.0 35.0	348	-1		2	python		7	 140	0.41  0.03  0.12    2  999	1.25 1.5 	 6 15  7	 6 15  7  40	7031

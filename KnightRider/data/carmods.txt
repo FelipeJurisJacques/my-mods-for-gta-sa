@@ -1,0 +1,2 @@
+intruder, nto_b_l, nto_b_s, nto_b_tw, rf_b_sc_r, spl_b_bar_m, spl_b_bab_m, spl_b_bbb_m, wg_l_b_ssk
+willard, nto_b_l, nto_b_s, nto_b_tw

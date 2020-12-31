@@ -1,0 +1,14 @@
+#Item Definition File created by MapEditor
+objs
+19070, tardis_door_L, tardis, 100, 0
+19071, tardis_door_R, tardis, 100, 0
+19072, tardis_interior, tardis_interior, 100, 0
+19073, tardis_mat, tardis_mat, 100, 0
+19074, tardis_ani, tardis_interior, 100, 0
+19075, tardis, tardis, 100, 0
+19076, screwdriver, screwdriver, 50, 0
+end
+tobj
+end
+2dfx
+end

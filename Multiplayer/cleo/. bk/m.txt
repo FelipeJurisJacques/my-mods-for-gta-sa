@@ -1,0 +1,681 @@
+// This file was decompiled using SASCM.ini published by GTAG (http://gtag.gtagaming.com/opcode-database) on 14.6.2013
+{$CLEO .cs}
+
+//-------------MAIN---------------
+thread 'REPLACEPLAYER'   
+//11@ = PLAYER1     
+//12@ = PLAYER2
+//13@ = PLAYER3 
+//14@ = PLAYER4 
+0AB3: var 106 = 1 //PLAYER         
+gosub @REPLACEPLAYER_1000 //CARREGA MIKE  
+gosub @REPLACEPLAYER_1010 //CARREGA MASTER CHIEF
+gosub @REPLACEPLAYER_1020 //CARREGA DOCTOR
+gosub @REPLACEPLAYER_3010 //AJUSTA MIKE  
+gosub @REPLACEPLAYER_3020 //AJUSTA MASTER CHIEF
+gosub @REPLACEPLAYER_3030 //AJUSTA DOCTOR 
+gosub @REPLACEPLAYER_110 //MIKE 
+gosub @REPLACEPLAYER_120 //MASTER CHIEF
+gosub @REPLACEPLAYER_130 //DOCTOR   
+0@ = 1 //PLAYER ATUAL       
+11@ = -1    
+21@ = 1 //VISIBILIDADE PLAYER 1 
+0AF1: write_int 0 to_ini_file "cleo\cleo_ini\replace.ini" section "CINEMATIC" key "1"
+0AF1: write_int 1 to_ini_file "cleo\cleo_ini\replace.ini" section "CINEMATIC" key "2"
+0AF1: write_int 1 to_ini_file "cleo\cleo_ini\replace.ini" section "CINEMATIC" key "3"
+0AF1: write_int 1 to_ini_file "cleo\cleo_ini\replace.ini" section "CINEMATIC" key "4"    
+
+//-------------LOOP DE REPETICAO QUE EXECUTA TODAS AS FUNCOES-------------
+:REPLACEPLAYER_70 
+wait 100 
+if
+   Player.Defined($PLAYER_CHAR)  
+jf @REPLACEPLAYER_70       
+gosub @REPLACEPLAYER_2000 //TROCA DE PLAYER 
+gosub @REPLACEPLAYER_100 //CJ 
+gosub @REPLACEPLAYER_110 //MIKE 
+gosub @REPLACEPLAYER_120 //MASTER CHIEF
+gosub @REPLACEPLAYER_130 //DOCTOR   
+jump @REPLACEPLAYER_70    
+
+//====================================================================================
+//-------------EFETUA PROCESSO DE TROCA DE PLAYER------------- 
+//====================================================================================
+:REPLACEPLAYER_2000 //VALIDA CONDICOES NESCESSARIAS PARA EFETUAR A TROCA  
+0AB4: 1@ = var 106 //PLAYER   
+if
+803B:   1@ == 0@  // (int)
+0AA1: return_if_false 
+if and                    
+   not fading  
+8800:   not in_two_players_mode 
+86B9:   not cutscene_data_loaded   
+jf @REPLACEPLAYER_2001
+jump @REPLACEPLAYER_2010   
+
+//CANCELA
+:REPLACEPLAYER_2001    
+0AB3: var 106 = 0@ //PLAYER
+return
+
+//-------------CJ-------------
+:REPLACEPLAYER_2010  
+if
+   1@ == 1  
+jf @REPLACEPLAYER_2020 //MIKE  
+if     
+056D:   actor 11@ defined
+jf @REPLACEPLAYER_2001 //CANCELA   
+if        
+   not Actor.Dead(11@) 
+jf @REPLACEPLAYER_2001 //CANCELA 
+gosub @REPLACEPLAYER_2050 //SALVA PLAYER ATUAL  
+0687: clear_actor $PLAYER_ACTOR task  
+09C7: change_player $PLAYER_CHAR model_to #NULL 
+0794: restore_player_clothes 
+Player.Build($PLAYER_CHAR)   
+0@ = 1   
+if
+    Actor.Driving(11@)  
+jf @REPLACEPLAYER_2013 
+10@ = Actor.CurrentCar(11@)   
+Actor.DestroyInstantly(11@)
+036A: put_actor $PLAYER_ACTOR in_car 10@  
+Car.SetImmunities(10@, 0, 0, 0, 0, 0)
+Car.LockInCurrentPosition(10@) = False 
+return   
+
+:REPLACEPLAYER_2013
+Actor.StorePos(11@, 1@, 2@, 3@)  
+4@ = Actor.Angle(11@)  
+Actor.DestroyInstantly(11@)
+Actor.PutAt($PLAYER_ACTOR, 1@, 2@, 3@)   
+Actor.Angle($PLAYER_ACTOR) = 4@
+return  
+
+//SALVA CJ
+:REPLACEPLAYER_2011 
+if
+    Actor.Driving($PLAYER_ACTOR)    
+jf @REPLACEPLAYER_2012    
+10@ = Actor.CurrentCar($PLAYER_ACTOR)
+Car.ImmuneToNonPlayer(10@) = True
+0792: disembark_instantly_actor $PLAYER_ACTOR 
+0793: save_player_clothes   
+0665: get_actor $PLAYER_ACTOR model_to 5@    
+0129: 11@ = create_actor_pedtype 8 model 5@ in_car 10@ driverseat      
+gosub @REPLACEPLAYER_3000 //AJUSTA CJ  
+return  
+
+:REPLACEPLAYER_2012
+Actor.StorePos($PLAYER_ACTOR, 1@, 2@, 3@)   
+4@ = Actor.Angle($PLAYER_ACTOR)
+0793: save_player_clothes  
+0665: get_actor $PLAYER_ACTOR model_to 5@      
+11@ = Actor.Create(Gang2, 5@, 1@, 2@, 3@)  
+Actor.Angle(11@) = 4@      
+gosub @REPLACEPLAYER_3000 //AJUSTA CJ  
+return  
+
+//-------------MIKE------------- 
+:REPLACEPLAYER_2020
+if     
+  1@ == 2             
+jf @REPLACEPLAYER_2030 //MASTER CHIEF    
+if     
+056D:   actor 12@ defined
+jf @REPLACEPLAYER_2001 //CANCELA   
+if        
+   not Actor.Dead(12@)   
+jf @REPLACEPLAYER_2001 //CANCELA  
+gosub @REPLACEPLAYER_2050 //SALVA PLAYER ATUAL   
+0665: get_actor 12@ model_to 5@ 
+0687: clear_actor $PLAYER_ACTOR task  
+09C7: change_player $PLAYER_CHAR model_to 5@  
+0@ = 2  
+if
+    Actor.Driving(12@)  
+jf @REPLACEPLAYER_2023 
+10@ = Actor.CurrentCar(12@)   
+Actor.DestroyInstantly(12@)
+036A: put_actor $PLAYER_ACTOR in_car 10@  
+Car.SetImmunities(10@, 0, 0, 0, 0, 0)
+Car.LockInCurrentPosition(10@) = False 
+return   
+
+:REPLACEPLAYER_2023 
+Actor.StorePos(12@, 1@, 2@, 3@)    
+4@ = Actor.Angle(12@)   
+Actor.DestroyInstantly(12@)
+Actor.PutAt($PLAYER_ACTOR, 1@, 2@, 3@)   
+Actor.Angle($PLAYER_ACTOR) = 4@ 
+return    
+
+//SALVA MIKE
+:REPLACEPLAYER_2021 
+if
+    Actor.Driving($PLAYER_ACTOR)    
+jf @REPLACEPLAYER_2022    
+10@ = Actor.CurrentCar($PLAYER_ACTOR)
+Car.ImmuneToNonPlayer(10@) = True
+0792: disembark_instantly_actor $PLAYER_ACTOR 
+0665: get_actor $PLAYER_ACTOR model_to 5@    
+0129: 12@ = create_actor_pedtype 8 model 5@ in_car 10@ driverseat      
+gosub @REPLACEPLAYER_3010 //AJUSTA MIKE  
+return  
+
+:REPLACEPLAYER_2022
+Actor.StorePos($PLAYER_ACTOR, 1@, 2@, 3@)   
+4@ = Actor.Angle($PLAYER_ACTOR)
+0665: get_actor $PLAYER_ACTOR model_to 5@      
+12@ = Actor.Create(Gang2, 5@, 1@, 2@, 3@)  
+Actor.Angle(12@) = 4@    
+gosub @REPLACEPLAYER_3010 //AJUSTA MIKE  
+return
+
+//-------------MASTER CHIEF------------- 
+:REPLACEPLAYER_2030
+if     
+  1@ == 3   
+jf @REPLACEPLAYER_2040 //DOCTOR  
+if     
+056D:   actor 13@ defined
+jf @REPLACEPLAYER_2001 //CANCELA   
+if     
+   not Actor.Dead(13@)   
+jf @REPLACEPLAYER_2001 //CANCELA  
+gosub @REPLACEPLAYER_2050 //SALVA PLAYER ATUAL   
+0665: get_actor 13@ model_to 5@ 
+0687: clear_actor $PLAYER_ACTOR task  
+09C7: change_player $PLAYER_CHAR model_to 5@  
+0@ = 3  
+if
+    Actor.Driving(13@)  
+jf @REPLACEPLAYER_2033 
+10@ = Actor.CurrentCar(13@)   
+Actor.DestroyInstantly(13@)
+036A: put_actor $PLAYER_ACTOR in_car 10@  
+Car.SetImmunities(10@, 0, 0, 0, 0, 0)
+Car.LockInCurrentPosition(10@) = False 
+return   
+
+:REPLACEPLAYER_2033 
+Actor.StorePos(13@, 1@, 2@, 3@)    
+4@ = Actor.Angle(13@)   
+Actor.DestroyInstantly(13@)
+Actor.PutAt($PLAYER_ACTOR, 1@, 2@, 3@)   
+Actor.Angle($PLAYER_ACTOR) = 4@ 
+return 
+
+//SALVA MASTER CHIEF
+:REPLACEPLAYER_2031  
+if
+    Actor.Driving($PLAYER_ACTOR)    
+jf @REPLACEPLAYER_2032    
+10@ = Actor.CurrentCar($PLAYER_ACTOR)
+Car.ImmuneToNonPlayer(10@) = True
+0792: disembark_instantly_actor $PLAYER_ACTOR 
+0665: get_actor $PLAYER_ACTOR model_to 5@    
+0129: 13@ = create_actor_pedtype 8 model 5@ in_car 10@ driverseat      
+gosub @REPLACEPLAYER_3020 //AJUSTA MASTER CHIEF
+return  
+
+:REPLACEPLAYER_2032
+Actor.StorePos($PLAYER_ACTOR, 1@, 2@, 3@)   
+4@ = Actor.Angle($PLAYER_ACTOR)
+0665: get_actor $PLAYER_ACTOR model_to 5@      
+13@ = Actor.Create(Gang2, 5@, 1@, 2@, 3@)  
+Actor.Angle(13@) = 4@      
+gosub @REPLACEPLAYER_3020 //AJUSTA MASTER CHIEF
+return
+
+//-------------DOCTOR-------------
+:REPLACEPLAYER_2040 
+if     
+  1@ == 4               
+jf @REPLACEPLAYER_2001  
+if     
+056D:   actor 14@ defined
+jf @REPLACEPLAYER_2001 //CANCELA  
+if     
+   not Actor.Dead(14@)  
+jf @REPLACEPLAYER_2001 //CANCELA   
+gosub @REPLACEPLAYER_2050 //SALVA PLAYER ATUAL   
+0665: get_actor 14@ model_to 5@ 
+0687: clear_actor $PLAYER_ACTOR task  
+09C7: change_player $PLAYER_CHAR model_to 5@  
+0@ = 4  
+if
+    Actor.Driving(14@)  
+jf @REPLACEPLAYER_2043 
+10@ = Actor.CurrentCar(14@)   
+Actor.DestroyInstantly(14@)
+036A: put_actor $PLAYER_ACTOR in_car 10@  
+Car.SetImmunities(10@, 0, 0, 0, 0, 0)
+Car.LockInCurrentPosition(10@) = False 
+return   
+
+:REPLACEPLAYER_2043 
+Actor.StorePos(14@, 1@, 2@, 3@)    
+4@ = Actor.Angle(14@)   
+Actor.DestroyInstantly(14@)
+Actor.PutAt($PLAYER_ACTOR, 1@, 2@, 3@)   
+Actor.Angle($PLAYER_ACTOR) = 4@ 
+return 
+
+//SALVA DOCTOR
+:REPLACEPLAYER_2041 
+if
+    Actor.Driving($PLAYER_ACTOR)    
+jf @REPLACEPLAYER_2042    
+10@ = Actor.CurrentCar($PLAYER_ACTOR)
+Car.ImmuneToNonPlayer(10@) = True
+0792: disembark_instantly_actor $PLAYER_ACTOR 
+0665: get_actor $PLAYER_ACTOR model_to 5@    
+0129: 14@ = create_actor_pedtype 8 model 5@ in_car 10@ driverseat      
+gosub @REPLACEPLAYER_3030 //AJUSTA DOCTOR 
+return  
+
+:REPLACEPLAYER_2042
+Actor.StorePos($PLAYER_ACTOR, 1@, 2@, 3@)   
+4@ = Actor.Angle($PLAYER_ACTOR)  
+0665: get_actor $PLAYER_ACTOR model_to 5@      
+14@ = Actor.Create(Gang2, 5@, 1@, 2@, 3@) 
+Actor.Angle(14@) = 4@
+gosub @REPLACEPLAYER_3030 //AJUSTA DOCTOR 
+return   
+
+//-------------GOSUBS-------------           
+//SALVA PLAYER ATUAL
+:REPLACEPLAYER_2050 
+if
+   not 0@ == 2   
+jf @REPLACEPLAYER_2021 //SALVA MIKE
+if
+   not 0@ == 3   
+jf @REPLACEPLAYER_2031 //SALVA MASTER CHIEF
+if
+   not 0@ == 4   
+jf @REPLACEPLAYER_2041 //SALVA DOCTOR
+jump @REPLACEPLAYER_2011 //SALVA CJ
+
+//====================================================================================                                                        
+//-------------ALTERA VISIBILIADE E COMPORTAMENTOS QUANDO O PLAYER SE APROXIMA DOS OUTROS PROTAGONISTAS-------------       
+//====================================================================================
+//-------------CJ-------------
+:REPLACEPLAYER_100
+if
+056D:   actor 11@ defined
+0AA1: return_if_false
+if
+00F2:   actor $PLAYER_ACTOR near_actor 11@ radius 100.0 100.0 200.0 
+jf @REPLACEPLAYER_101 
+if
+   21@ == 0     
+0AA1: return_if_false  
+gosub @REPLACEPLAYER_104
+0619: enable_actor 11@ collision_detection 1 
+0337: set_actor 11@ visibility 1 
+0A09: set_actor 11@ muted 0 // versionB    
+Actor.SetImmunities(11@, 0, 0, 0, 0, 0)  
+21@ = 1
+if         
+    Actor.Driving(11@)  
+jf @REPLACEPLAYER_102
+10@ = Actor.CurrentCar(11@)
+gosub @REPLACEPLAYER_140 //DESTRAVA CARRO   
+072A: put_actor 11@ into_car 10@ driverseat
+return
+ 
+:REPLACEPLAYER_102     
+Actor.LockInCurrentPosition(11@) = False 
+05DE: AS_actor 11@ walk_around_ped_path 
+return
+
+:REPLACEPLAYER_104   
+0AF0: 1@ = get_int_from_ini_file "cleo\cleo_ini\replace.ini" section "CINEMATIC" key "1"
+if         
+   1@ <> 0
+0AA1: return_if_false 
+077E: get_active_interior_to 1@  
+if    
+   1@ == 0   
+0AA1: return_if_false 
+0AF1: write_int 0 to_ini_file "cleo\cleo_ini\replace.ini" section "CINEMATIC" key "1"
+return
+
+:REPLACEPLAYER_101
+if
+   21@ == 1  
+0AA1: return_if_false   
+0619: enable_actor 11@ collision_detection 0 
+0337: set_actor 11@ visibility 0 
+0A09: set_actor 11@ muted 1 // versionB  
+Actor.SetImmunities(11@, 1, 1, 1, 1, 1) 
+0223: set_actor 11@ health_to 500
+21@ = 0
+if         
+    Actor.Driving(11@)  
+jf @REPLACEPLAYER_103    
+10@ = Actor.CurrentCar(11@)
+gosub @REPLACEPLAYER_141 //TRAVA CARRO
+return  
+ 
+:REPLACEPLAYER_103     
+Actor.LockInCurrentPosition(11@) = True 
+return
+          
+//-------------MIKE-------------
+:REPLACEPLAYER_110 
+if
+056D:   actor 12@ defined
+0AA1: return_if_false
+if          
+00F2:   actor $PLAYER_ACTOR near_actor 12@ radius 100.0 100.0 200.0 
+jf @REPLACEPLAYER_111  
+if
+   22@ == 0     
+0AA1: return_if_false 
+gosub @REPLACEPLAYER_114   
+0619: enable_actor 12@ collision_detection 1 
+0337: set_actor 12@ visibility 1 
+0A09: set_actor 12@ muted 0 // versionB    
+Actor.SetImmunities(12@, 0, 0, 0, 0, 0)  
+22@ = 1
+if         
+    Actor.Driving(12@)  
+jf @REPLACEPLAYER_112  
+10@ = Actor.CurrentCar(12@)
+gosub @REPLACEPLAYER_140 //DESTRAVA CARRO  
+072A: put_actor 12@ into_car 10@ driverseat
+return 
+ 
+:REPLACEPLAYER_112     
+Actor.LockInCurrentPosition(12@) = False 
+05DE: AS_actor 12@ walk_around_ped_path 
+return  
+
+:REPLACEPLAYER_114   
+0AF0: 1@ = get_int_from_ini_file "cleo\cleo_ini\replace.ini" section "CINEMATIC" key "2"
+if         
+   1@ <> 0
+0AA1: return_if_false 
+077E: get_active_interior_to 1@  
+if    
+   1@ == 0   
+0AA1: return_if_false 
+0AF1: write_int 0 to_ini_file "cleo\cleo_ini\replace.ini" section "CINEMATIC" key "2"
+return
+
+:REPLACEPLAYER_111 
+if
+   22@ == 1     
+0AA1: return_if_false  
+0619: enable_actor 12@ collision_detection 0 
+0337: set_actor 12@ visibility 0 
+0A09: set_actor 12@ muted 1 // versionB  
+Actor.SetImmunities(12@, 1, 1, 1, 1, 1)  
+0223: set_actor 12@ health_to 500  
+22@ = 0
+if         
+    Actor.Driving(12@)  
+jf @REPLACEPLAYER_113
+10@ = Actor.CurrentCar(12@)
+gosub @REPLACEPLAYER_141 //TRAVA CARRO 
+return   
+
+:REPLACEPLAYER_113    
+Actor.LockInCurrentPosition(12@) = True 
+return
+                     
+//-------------MASTER CHIEF-------------
+:REPLACEPLAYER_120 
+if
+056D:   actor 13@ defined
+0AA1: return_if_false
+if              
+00F2:   actor $PLAYER_ACTOR near_actor 13@ radius 100.0 100.0 200.0 
+jf @REPLACEPLAYER_121     
+if
+   23@ == 0     
+0AA1: return_if_false 
+gosub @REPLACEPLAYER_124      
+0619: enable_actor 13@ collision_detection 1 
+0337: set_actor 13@ visibility 1 
+0A09: set_actor 13@ muted 0 // versionB    
+Actor.LockInCurrentPosition(13@) = False 
+Actor.SetImmunities(13@, 0, 0, 0, 0, 0)  
+23@ = 1
+if         
+    Actor.Driving(13@)  
+jf @REPLACEPLAYER_122  
+10@ = Actor.CurrentCar(13@)
+gosub @REPLACEPLAYER_140 //DESTRAVA CARRO   
+072A: put_actor 13@ into_car 10@ driverseat
+return    
+ 
+:REPLACEPLAYER_122     
+Actor.LockInCurrentPosition(13@) = False 
+05DE: AS_actor 13@ walk_around_ped_path 
+return     
+
+:REPLACEPLAYER_124   
+0AF0: 1@ = get_int_from_ini_file "cleo\cleo_ini\replace.ini" section "CINEMATIC" key "3"
+if         
+   1@ <> 0
+0AA1: return_if_false 
+077E: get_active_interior_to 1@  
+if    
+   1@ == 0   
+0AA1: return_if_false 
+0AF1: write_int 0 to_ini_file "cleo\cleo_ini\replace.ini" section "CINEMATIC" key "3"
+return
+
+:REPLACEPLAYER_121  
+if
+   23@ == 1     
+0AA1: return_if_false   
+0619: enable_actor 13@ collision_detection 0 
+0337: set_actor 13@ visibility 0 
+0A09: set_actor 13@ muted 1 // versionB  
+Actor.LockInCurrentPosition(13@) = True  
+Actor.SetImmunities(13@, 1, 1, 1, 1, 1)   
+0223: set_actor 13@ health_to 1000  
+23@ = 0
+if         
+    Actor.Driving(13@)  
+jf @REPLACEPLAYER_123  
+10@ = Actor.CurrentCar(13@)
+gosub @REPLACEPLAYER_141 //TRAVA CARRO
+return        
+
+:REPLACEPLAYER_123    
+Actor.LockInCurrentPosition(13@) = True 
+return
+                      
+//-------------DOCTOR-------------
+:REPLACEPLAYER_130
+if               
+056D:   actor 14@ defined
+0AA1: return_if_false
+if               
+00F2:   actor $PLAYER_ACTOR near_actor 14@ radius 100.0 100.0 200.0 
+jf @REPLACEPLAYER_131 
+if
+   24@ == 0     
+0AA1: return_if_false  
+gosub @REPLACEPLAYER_134   
+0619: enable_actor 14@ collision_detection 1 
+0337: set_actor 14@ visibility 1 
+0A09: set_actor 14@ muted 0 // versionB    
+Actor.LockInCurrentPosition(14@) = False 
+Actor.SetImmunities(14@, 0, 0, 0, 0, 0) 
+24@ = 1 
+if         
+    Actor.Driving(14@)  
+jf @REPLACEPLAYER_132  
+10@ = Actor.CurrentCar(14@)
+gosub @REPLACEPLAYER_140 //DESTRAVA CARRO 
+072A: put_actor 14@ into_car 10@ driverseat
+return      
+ 
+:REPLACEPLAYER_132     
+Actor.LockInCurrentPosition(14@) = False 
+05DE: AS_actor 14@ walk_around_ped_path 
+return            
+
+:REPLACEPLAYER_134   
+0AF0: 1@ = get_int_from_ini_file "cleo\cleo_ini\replace.ini" section "CINEMATIC" key "4"
+if         
+   1@ <> 0
+0AA1: return_if_false 
+077E: get_active_interior_to 1@  
+if    
+   1@ == 0   
+0AA1: return_if_false 
+0AF1: write_int 0 to_ini_file "cleo\cleo_ini\replace.ini" section "CINEMATIC" key "4"
+return
+                     
+:REPLACEPLAYER_131  
+if
+   24@ == 1     
+0AA1: return_if_false  
+0619: enable_actor 14@ collision_detection 0 
+0337: set_actor 14@ visibility 0 
+0A09: set_actor 14@ muted 1 // versionB  
+Actor.LockInCurrentPosition(14@) = True    
+Actor.SetImmunities(14@, 1, 1, 1, 1, 1) 
+0223: set_actor 14@ health_to 1000  
+24@ = 0
+if         
+    Actor.Driving(14@)  
+jf @REPLACEPLAYER_133  
+10@ = Actor.CurrentCar(14@)  
+gosub @REPLACEPLAYER_141 //TRAVA CARRO
+return      
+
+:REPLACEPLAYER_133    
+Actor.LockInCurrentPosition(14@) = True 
+return
+
+//DESTRAVA CARRO
+:REPLACEPLAYER_140   
+Car.LockInCurrentPosition(10@) = False
+Car.ImmuneToNonPlayer(10@) = True
+Car.SetImmunities(10@, 0, 0, 0, 0, 0) 
+Car.SetToNormalDriver(10@)
+Car.SetDriverBehaviour(10@, FollowRoad)
+Car.SetMaxSpeed(10@, 20.0)
+return
+
+//TRAVA CARRO
+:REPLACEPLAYER_141   
+Car.LockInCurrentPosition(10@) = True   
+Car.ImmuneToNonPlayer(10@) = True
+Car.SetImmunities(10@, 1, 1, 1, 1, 1) 
+Car.SetToNormalDriver(10@) 
+Car.SetMaxSpeed(10@, 0.0)
+return
+//====================================================================================                                       
+//-------------INICIALIZA CARREGANDO TODOS OS PROTAGINISTAS EM SUAS DEVIDAS LOCALIZACOES PADRONIZADAS-------------
+//====================================================================================   
+//-------------MIKE-------------
+:REPLACEPLAYER_1000  
+if
+07DE:   model #MIKE exists  // versionB 
+0AA1: return_if_false   
+jump @REPLACEPLAYER_1001
+
+:REPLACEPLAYER_1001
+wait 0            
+Model.Load(#MIKE)
+038B: load_requested_models
+if
+    Model.Available(#MIKE) 
+jf @REPLACEPLAYER_1001 
+12@ = Actor.Create(Gang2, #MIKE, -1967.5, -2337.8, 1960.98)  
+Model.Destroy(#MIKE) 
+return
+                     
+//-------------MASTER CHIEF-------------
+:REPLACEPLAYER_1010 
+if
+07DE:   model #CHIEF exists  // versionB 
+0AA1: return_if_false   
+jump @REPLACEPLAYER_1011
+
+:REPLACEPLAYER_1011
+wait 0            
+Model.Load(#CHIEF)
+038B: load_requested_models
+if
+    Model.Available(#CHIEF) 
+jf @REPLACEPLAYER_1011 
+13@ = Actor.Create(Gang2, #CHIEF, 2389.8, -670.0, 128.2) 
+Model.Destroy(#CHIEF) 
+return
+                            
+//-------------DOCTOR-------------
+:REPLACEPLAYER_1020 
+if
+07DE:   model #DW exists  // versionB 
+0AA1: return_if_false   
+jump @REPLACEPLAYER_1021
+
+:REPLACEPLAYER_1021
+wait 0            
+Model.Load(#DW)
+038B: load_requested_models
+if
+    Model.Available(#DW) 
+jf @REPLACEPLAYER_1021 
+14@ = Actor.Create(Gang2, #DW, 2089.414, -1637.065, 13.5469)  
+Model.Destroy(#DW) 
+return     
+
+//====================================================================================
+//-------------AJUSTA AS DEFINICOES DE CADA PROTAGONISTA-------------  
+//====================================================================================
+//-------------CJ-------------
+:REPLACEPLAYER_3000 
+if               
+056D:   actor 11@ defined
+0AA1: return_if_false    
+02A9: set_actor 11@ immune_to_nonplayer 1
+08AF: set_actor 11@ max_health_to 500   
+0223: set_actor 11@ health_to 500 
+21@ = 1 //VISIBILIDADE PLAYER 1
+return
+
+//-------------MIKE-------------
+:REPLACEPLAYER_3010  
+if               
+056D:   actor 12@ defined
+0AA1: return_if_false    
+02A9: set_actor 12@ immune_to_nonplayer 1
+08AF: set_actor 12@ max_health_to 500   
+0223: set_actor 12@ health_to 500 
+22@ = 1 //VISIBILIDADE PLAYER 2
+return   
+
+//-------------MASTER CHIEF-------------
+:REPLACEPLAYER_3020  
+if               
+056D:   actor 13@ defined
+0AA1: return_if_false    
+02A9: set_actor 13@ immune_to_nonplayer 1
+08AF: set_actor 13@ max_health_to 1000   
+0223: set_actor 13@ health_to 1000 
+23@ = 1 //VISIBILIDADE PLAYER 3
+return
+
+//-------------DOCTOR-------------
+:REPLACEPLAYER_3030  
+if               
+056D:   actor 14@ defined
+0AA1: return_if_false    
+02A9: set_actor 14@ immune_to_nonplayer 1
+08AF: set_actor 14@ max_health_to 1000   
+0223: set_actor 14@ health_to 1000
+24@ = 1 //VISIBILIDADE PLAYER 4 
+return

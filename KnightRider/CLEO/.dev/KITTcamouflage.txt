@@ -1,0 +1,69 @@
+// This file was decompiled using SASCM.ini published by GTAG (http://gtag.gtagaming.com/opcode-database) on 14.6.2013
+{$CLEO .cs}
+
+//-------------MAIN---------------
+thread 'KITT'   
+0AF0: 20@ = get_int_from_ini_file "cleo\KnightRider\config.ini" section "KITT3000" key "DAMAGED"  
+
+:KITT_38
+wait 100  
+0AB4: 0@ = var 102
+if 
+056E:   car 0@ defined   
+jf @KITT_38
+//0AB4: 1@ = var 103 //CPU: Status do computador 
+//if
+//   1@ > 0   
+//jf @KITT_38  
+//if
+//0185:   car 0@ health >= 20@ 
+//jf @KITT_39  
+jump @KITT_40
+
+:KITT_39
+0AB3: var 105 = 13 //FALA: inoperante
+0AB3: var 103 = 1 //CPU: Status do computador       
+jump @KITT_100
+
+:KITT_40
+jump @KITT_1501
+
+:KITT_1501
+wait 10  
+Model.Load(19083)   
+if 
+   Model.Available(19083)  
+jf @KITT_1501      
+wait 100      
+10@ = Object.Create(19083, 0.0, 0.0, 0.0) 
+Object.CollisionDetection(10@) = False      
+Model.Destroy(19083)   
+1@ = 0.0
+jump @KITT_1502
+
+:KITT_1502
+wait 10  
+if 
+056E:   car 0@ defined 
+jf @KITT_100    
+1@ += 2.0
+0681: attach_object 10@ to_car 0@ with_offset 0.0 2.5 0.2 rotation 1@ 0.0 0.0
+if         
+1@ > 20.0     
+jf @KITT_1502
+jump @KITT_1503
+
+:KITT_1503  
+wait 10    
+if 
+056E:   car 0@ defined 
+jf @KITT_100  
+1@ -= 2.0  
+0681: attach_object 10@ to_car 0@ with_offset 0.0 2.5 0.2 rotation 1@ 0.0 0.0
+if         
+1@ < -20.0     
+jf @KITT_1503
+jump @KITT_1502
+
+:KITT_100
+end_thread

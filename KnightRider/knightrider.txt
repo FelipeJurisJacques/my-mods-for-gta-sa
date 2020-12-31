@@ -1,0 +1,6 @@
+IDE MODLOADER\FELIPEJJ\KNIGHTRIDER\KNIGHTRIDER.IDE
+IPL MODLOADER\FELIPEJJ\KNIGHTRIDER\KNIGHTRIDER.IPL
+COLFILE 0 KnightRider\models\gta3img\kitt\kitt.col
+COLFILE 0 KnightRider\models\gta3img\karr\karr.col
+COLFILE 0 KnightRider\models\gta3img\ssc\ssc.col
+

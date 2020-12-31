@@ -1,0 +1,48 @@
+SPEED ~1~
+SPEED1 ~1~mph
+SPEED2 ~1~kph
+HEALTH ~1~%
+FEAT ~1~Feat
+
+GX00 none
+GX01 attack mode
+GX02 normal mode
+GX03 multi cannon
+GX04 missile cluster
+GX05 plasma pulse
+GX06 laser
+GX07 extinguisher
+GX08 throw flames
+GX09 thermal vision
+GX10 night vision
+GX11 auto drive
+GX12 follow car
+GX13 reassuring
+GX14 hook
+GX15 emp
+GX16 to acquire weapon
+GX17 flare
+GX18 sticks tires
+GX19 BREACHING SURFACE
+GX20 armed with 15 munitions
+GX21 multi cannon active
+GX22 missile cluster active
+GX23 plasma pulse active
+GX24 laser active
+GX25 extinguisher active
+GX26 throw flames active
+GX27 flare active
+GX28 thermal vision active
+GX29 night vision active
+GX30 auto drive active
+GX31 reassuring active
+GX32 hook active
+GX33 emp active
+GX34 sticks tires active
+GX35 active occupant restraint
+GX36 parachute active
+GX37 altitude on the ground
+GX38 altitude on the sea
+GX39 sonar detection active
+GX40 oxygen supply 100%
+GX41 water pressure ~1~Bars

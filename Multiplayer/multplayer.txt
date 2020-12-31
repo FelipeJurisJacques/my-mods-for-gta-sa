@@ -1,0 +1,8 @@
+# os modelos dos personagens estao presentas em suas respectivas pastas de origem
+# valor 1 = CJ
+# valor 2 = Mike
+# valor 3 = Master Chief
+# valor 4 = Doctor
+#
+IDE MODLOADER\FELIPEJJ\MULTPLAYER\MULTPLAYER.IDE
+

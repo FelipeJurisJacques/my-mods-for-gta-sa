@@ -1,5 +1,20 @@
 # my-mods-for-gta-sa
-Modificações para GTA San Andreas
+
+Esse Mod apresenta a nova super maquina, halo e doctor who além de pequenos toques em multiplayer e física;
+
+A partir de agora as atualizações irão vir em pequenas correções e melhorias;
+
+O Mod já está próximo de seu estágio final e nessa versão apresenta apenas pequenas correções e o uso da trapaça para chamar o Kitt digitando "KITTARREBENTA";
+
+Esse Mod me levou a carreira de desenvolvedor, agora o código fonte está disponível no GitHub para estudos e colaborações. Ressaltando que não é uma dedicação, é apenas um hobbie.
+
+This Mod presents the new knight rider, halo and doctor who besides small touches in multiplayer and physics;
+
+From now on, updates will come with minor fixes and improvements;
+
+The Mod is already close to its final stage and in this version it presents only minor corrections and the use of cheating to call Kitt by typing "KITTARREBENTA";
+
+This Mod took me to a developer career, now the source code is available on GitHub for studies and collaborations. Emphasizing that it is not a dedication, it is just a hobby.
 
 
 

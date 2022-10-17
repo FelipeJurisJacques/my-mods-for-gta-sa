@@ -1,5 +1,18 @@
 # my-mods-for-gta-sa
 
+A partir de agora as atualizações irão vir em pequenas correções e melhorias;
+O Mod já está próximo de seu estágio final e nessa versão apresenta apenas pequenas correções e o uso da trapaça para chamar o Kitt digitando "KITTARREBENTA";
+
+INSTUÇÕES DE INSTALAÇÃO:
+1 - Tenha uma instalação do GTA San Andreas VERSÃO 1.0 (caso tenha problemas, opte por uma versão limpa);
+2 - Instale o SILENTS ASI LOADER em seu jogo. Você pode adquirir o Silents Asi Loader em (https://www.mixmods.com.br/2014/11/silents-asi-loader-1-3/);
+3 - Instale o MODLOADER em seu jogo. Você pode adquirir o Modloader em (https://www.mixmods.com.br/2018/01/modloader/);
+4 - Instale a livraria CLEO 4 mais recente em seu jogo. Voce pode adquirir a livraria Cleo 4 em (https://www.mixmods.com.br/2020/10/biblioteca-cleo-4-4/);
+
+
+
+Esse Mod me levou a carreira de desenvolvedor, agora o código fonte está disponível no GitHub para estudos e colaborações. Ressaltando que não é uma dedicação, é apenas um hobbie.
+
 Esse Mod apresenta a nova super maquina, halo e doctor who além de pequenos toques em multiplayer e física;
 
 A partir de agora as atualizações irão vir em pequenas correções e melhorias;
